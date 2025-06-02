@@ -36,8 +36,8 @@ class Analysis:
 
         avg_price_by_type.plot(kind='barh', color='green')
         pl.title('Average price by type (sale only)')
-        pl.xlabel('Cena (€)')
-        pl.ylabel('Typ bytu')
+        pl.xlabel('Price (€)')
+        pl.ylabel('Type')
         pl.grid(True)
         pl.tight_layout()
         pl.savefig("graph_avg_price_by_type.png")
