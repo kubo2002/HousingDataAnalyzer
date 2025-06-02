@@ -71,23 +71,34 @@ class RawData:
             else:
                 listing_type = 'sale'
 
-            if self.check_candidate(price):
+            if self.check_candidate(price) and location != 'N':
                 self.data.append({
                 'price': self.clean_price_value(price),
-                'location': self.clean_location(location),
+                'city':self.get_city(location),
+                'district': self.get_district(location),
                 'type' : type,
                 'listing_type' : listing_type
             })
 
-    """
-        Removes  character " from location.
-    """
-    def clean_location(self, location: str):
+    def get_city(self, location: str):
+        info = location.split(',')
 
-        if '"' in location :
-            return location.replace('"', '')
+        if len(info) == 3:
+            return info[1]
+        elif len(info) == 2:
+            return info[0]
+        return ''
 
-        return location
+    """
+        Returns name of district
+    """
+    def get_district(self, location: str):
+        info = location.split(' ')
+
+        for i in range (len(info)):
+            if info[i] == 'okres':
+                return info[i + 1]
+        return ''
 
     """
         Removes common characters from price as " or €/mes ect.
@@ -135,8 +146,6 @@ class RawData:
         :param data: A dictionary with listing details.
         :return: True if all values are valid, otherwise False.
         """
-        count = 0
-        index = 0
 
         if '€' not in price:
             return False
