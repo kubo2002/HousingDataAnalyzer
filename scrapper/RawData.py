@@ -61,21 +61,61 @@ class RawData:
             location_tag = offer.find('p', class_='MuiTypography-root MuiTypography-body2 MuiTypography-noWrap mui-3vjwr4')
             type_tag = offer.find('p', class_='MuiTypography-root MuiTypography-body2 MuiTypography-noWrap mui-1hwpzcb')
 
-
             price = price_tag.text.strip() if price_tag else 'N'
             location = location_tag.text.strip() if location_tag else 'N'
             type = type_tag.text.strip() if type_tag else 'N'
 
-            if self.check_candidate({
-                'price': price,
-                'location': location,
-                'type' : type
-            }):
+
+            if '/' in price:
+                listing_type = 'rent'
+            else:
+                listing_type = 'sale'
+
+            if self.check_candidate(price):
                 self.data.append({
-                    'price': price,
-                    'location': location,
-                    'type' : type
-                })
+                'price': self.clean_price_value(price),
+                'location': self.clean_location(location),
+                'type' : type,
+                'listing_type' : listing_type
+            })
+
+    """
+        Removes  character " from location.
+    """
+    def clean_location(self, location: str):
+
+        if '"' in location :
+            return location.replace('"', '')
+
+        return location
+
+    """
+        Removes common characters from price as " or €/mes ect.
+    """
+    def clean_price_value(self, price: str):
+
+        if '\u00A0' in price:
+            price = price.replace('\u00A0', '')
+
+        if ' €' in price:
+            price = price.replace( ' €', '')
+
+        if ' €/mes.' in price:
+            price = price.replace( ' €/mes.', '')
+
+        if ' /mes.' in price:
+            price = price.replace( ' /mes.', '')
+
+        if '/mes.' in price:
+            price = price.replace( '/mes.', '')
+
+        if '"' in price:
+            price = price.replace( '"', '')
+
+        if ',' in price:
+            price = price.replace( ',', '.')
+
+        return price
 
     def scrape(self):
         """
@@ -88,24 +128,22 @@ class RawData:
             soup = self.fetch_page(url)
             self.parse_listings(soup)
 
-    def check_candidate(self, data):
+    def check_candidate(self, price):
         """
-        Checks if all fields in the listing are valid (i.e. not 'N').
+        Checks if price is given.
 
         :param data: A dictionary with listing details.
         :return: True if all values are valid, otherwise False.
         """
         count = 0
         index = 0
-        for key in data:
-            index += 1
-            if data[key] != 'N':
-                count += 1
 
-        if count == index:
-            return True
-        else:
+        if '€' not in price:
             return False
+        else :
+            return True
+
+
 
     def save_to_csv(self, filename):
         """
