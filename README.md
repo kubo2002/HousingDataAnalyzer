@@ -12,11 +12,17 @@ This project collects and analyzes real estate listings from Slovakia using web 
 
 ## 🧾 Sample Dataset
 price,city,district,type,listing_type
+
 225900,Bratislava-Staré Mesto,Bratislava,2 izbový byt,sale
+
 215000,Bratislava-Staré Mesto,Bratislava,2 izbový byt,sale
+
 145000,Zvolen,Zvolen,3 izbový byt,sale
+
 1050,Košice-Lorinčík,Košice,2 izbový byt,rent
+
 245000,Miloslavov,Senec,5 a viac izbový byt,sale
+
 185000,Košice-Staré Mesto,Košice,2 izbový byt,sale
 
 ## 📊 Example Visualizations
