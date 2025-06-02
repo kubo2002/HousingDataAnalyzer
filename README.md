@@ -12,4 +12,4 @@ This project collects and analyzes real estate listings from Slovakia using web 
 
 ## 📊 Example Visualizations
 
-![Average Price by Property Type](avg_price_by_type.png)
+![Average Price by Property Type](HousingDataAnalyzer/graph_avg_price_by_type.png)
