@@ -1,0 +1,1 @@
+A Python-based web scraping project that collects real estate listings from Slovak property websites. The data includes price, location, and area of flats, which are saved in CSV format. Basic analysis and visualizations (average prices, price per square meter, etc.) are included using pandas and matplotlib. Built with BeautifulSoup and requests.
